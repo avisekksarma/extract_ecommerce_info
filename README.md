@@ -34,8 +34,8 @@ Also, Since context length of llama3 is 8k ( 8192 ) tokens i.e. input and output
     ```
     {
       "html_block": base64_encoded_form_of_html_block,
-      "model": [Optional] "llama3:8b" ( Choices are : "llama3:8b", "llama3:70b", "phi3:mini", "phi3:medium", "mistral", "gemma:2b", "gemma:7b")
-      "prompt": [Optional] (Don't put html_block in here, only prompt that will be above it.) """Using the given HTML block at the end, extract meaningful information and return in JSON format. And provide the output in JSON format very very strictly."""
+      "model": [Optional] Default: "llama3:8b" ( Choices are : "llama3:8b", "llama3:70b", "phi3:mini", "phi3:medium", "mistral", "gemma:2b", "gemma:7b")
+      "prompt": [Optional] (Don't put html_block in here, only prompt that will be above it.) Default: """Using the given HTML block at the end, extract meaningful information and return in JSON format. And provide the output in JSON format very very strictly."""
 
     }
     ```
