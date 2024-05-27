@@ -1,5 +1,6 @@
 This application can be used to extract meaningful information like product name, price , original price, discount,etc. from a html block of an ecommerce website passed as input to the api.
 
+
 #### Choice of LLM:
 As default LLM, I have used llama3 ( 8 billion parameters of 4.7 gb ). I could have used more powerful llama3 ( 70 billion parameters of 40 gb), but due to having limited RAM size of just 8 gb in my device with no GPU, I could not use the powerful llama 3: 70 billion model.
 Regarding use of llama3 rather than phi3, mistral , gemma ,etc. : 
@@ -14,6 +15,14 @@ Also, Since context length of llama3 is 8k ( 8192 ) tokens i.e. input and output
 - The API has two endpoints:
     - `/api/health` [ GET ] , Used to check if web app is working correctly. Client can make GET request to see if it is being successful to connect to Server.
     - `/api/send_html_encoded` [ POST ], Send html_block of ecommerce site in base64 encoded form , optionally pass one of the available llm locally : `["llama3:8b", "llama3:70b", "phi3:mini", "phi3:medium", "mistral", "gemma:2b", "gemma:7b"]` , optionally pass prompt for extracting the relevant info ( don't include html block here, as it will be concatenated automatically )
+
+
+##### Note: Why using base64 encoding rather than just directly using copied html block ?
+-   Since we need to manually escape all the quotation marks while serializing the html block when passing as request body in JSON in like Postman requests
+    which becomes cumbersome, otherwise if escaping not done then serialization fails.
+    
+    Thus, here the Input html block is passed as base64 encoded from client side, which removes that limitation.
+
 
 
 #### Instruction for setting up API and testing locally
@@ -40,6 +49,10 @@ Also, Since context length of llama3 is 8k ( 8192 ) tokens i.e. input and output
     }
     ```
   8. Then processing will take around 4-5 minutes, then output JSON response of extracted data is returned.
+
+
+
+
 
 
 
