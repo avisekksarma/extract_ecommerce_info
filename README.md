@@ -16,9 +16,37 @@ Also, Since context length of llama3 is 8k ( 8192 ) tokens i.e. input and output
     - `/api/send_html_encoded` [ POST ], Send html_block of ecommerce site in base64 encoded form , optionally pass one of the available llm locally : `["llama3:8b", "llama3:70b", "phi3:mini", "phi3:medium", "mistral", "gemma:2b", "gemma:7b"]` , optionally pass prompt for extracting the relevant info ( don't include html block here, as it will be concatenated automatically )
 
 
+#### Instruction for setting up API and testing locally
+
+1. Go to [Ollama official website](https://ollama.com/) and download for corresponding OS
+2. Then make choice of LLM, for now I am using llama3 then I will do `ollama pull llama3` , but if you have more than 40GB available space in RAM/GPU, then use `ollama pull llama3:70b`
+3. Then clone this github repo and `cd` into repo
+4. Then make python virtualenv :
+  `python3 -m venv env` [ for Linux/Unix ]
+5. Then install requirements:
+  `pip install -r requirements.txt` 
+6. Now run server:
+  `fastapi dev main.py`
+7. Now from postman/thunder client/other , make api request like shown below:
+    - GET request in `http://localhost:8000/api/health`, and if 200 status code is returned, then its working properly.
+    - Now, copy a html block from any ecommerce site and encode that into base64 form from [like here](https://base64.guru/converter/encode/html)
+    - Now make POST request into `http://localhost:8000/api/send_html_encoded` with request body in JSON form as:
+    ```
+    {
+      "html_block": base64_encoded_form_of_html_block,
+      "model": [Optional] "llama3:8b" ( Choices are : "llama3:8b", "llama3:70b", "phi3:mini", "phi3:medium", "mistral", "gemma:2b", "gemma:7b")
+      "prompt": [Optional] (Don't put html_block in here, only prompt that will be above it.) """Using the given HTML block at the end, extract meaningful information and return in JSON format. And provide the output in JSON format very very strictly."""
+
+    }
+    ```
+  8. Then processing will take around 4-5 minutes, then output JSON response of extracted data is returned.
+
+
+
+
 #### Examples of input and output:
 1. Following is from daraz home page, the corresponding html block of below pic is given below, which is base64 encoded using [this site for now](https://base64.guru/converter/encode/html) ( clients can do base64 encoding using like JS in frontend and then hit api post request )
-![Daraz sale part](image.png)
+![Daraz sale part](./assets/image.png)
 
 The corresponding HTML block is: 
 ```

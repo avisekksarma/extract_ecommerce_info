@@ -2,7 +2,7 @@ from fastapi import FastAPI,HTTPException
 from pydantic import BaseModel, field_validator
 from bs4 import BeautifulSoup
 import base64
-from extractor import Extractor
+from extractor.extractor import Extractor
 
 
 app = FastAPI()
