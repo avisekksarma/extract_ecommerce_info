@@ -190,12 +190,21 @@ The corresponding HTML block is:
   </div>
 ```
 
-The extracted output is :
+The input to the api is in following format:
+```
+{
+  "html_block":"PGRpdiBjbGFzcz0iY2FyZC1mcy1jb250ZW50Ij4NCiAgICA8ZGl2IGNsYXNzPSJjYXJkLWZzLW...."
+}
+# html_block is base64 encoded of the above html block of daraz website. For now I am using default value of 'model' and 'prompt' parameters in input json
+```
+
+The extracted output for above case is: 
+![image](https://github.com/avisekksarma/extract_ecommerce_info/assets/56149664/19fab004-861c-4d7a-be08-05f3e0250eb1)
+
+It takes around 3-5 minutes on average to extract the information
 
 
-
-
-
-Limitations and Future improvements:
+#### Limitations and Future improvements:
 - The Xpath of each extracted attribute is not currently supported.
-    - Possible solution which happened to some extent as of now is to make a separate call to llm ( for now i experimented with best performing llama3:8b model ), but that caused to separate calls on one api route , which made response to be really slow
+    - Possible solution which happened to some extent as of now is to make a separate call to llm ( for now i experimented with best performing llama3:8b model ), but that caused two separate calls on one api route , which made response to be really slow
+    - If I invoke the llm with action of extracting relevant information and their xpaths/css selector in same prompt then the current llama3:8b model is not performing well and only extracting the information not xpath/css selector. This might happen due to being less powerful model so trying out llama3:80b model will definitely improve result.
